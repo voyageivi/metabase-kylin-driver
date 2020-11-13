@@ -1,0 +1,31 @@
+info:
+  name: Metabase Kylin Driver
+  version: 1.0.0-SNAPSHOT-3.25.2
+  description: Allows Metabase to connect to Kylin databases.
+dependencies:
+  - class: org.apache.kylin.jdbc.Driver
+    message: >
+      Metabase requires the Kylin JDBC driver
+driver:
+  name: kylin
+  display-name: Kylin
+  lazy-load: true
+  parent: hive-like
+  connection-properties:
+    - merge:
+        - host
+        - placeholder: localhost
+    - merge:
+        - port
+        - placeholder: 7070
+    - merge:
+        - dbname
+        - placeholder: vskit
+    - user
+    - password
+  connection-properties-include-tunnel-config: true
+init:
+  - step: load-namespace
+    namespace: metabase.driver.kylin
+  - step: register-jdbc-driver
+    class: org.apache.kylin.jdbc.Driver
